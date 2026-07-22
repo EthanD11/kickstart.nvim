@@ -699,9 +699,14 @@ do
       -- See pyright doc for explanation: 
       -- https://docs.basedpyright.com/latest/configuration/language-server-settings/#neovim
       settings = {
-        analysis = {
-          diagnosticMode = "openFilesOnly" -- or "workspace"
-        } 
+        basedpyright = {
+          analysis = {
+            diagnosticMode = "openFilesOnly", -- or "workspace"
+            inlayHints = {
+              callArgumentNamesMatching = true -- Shows argument names even when parameter name matches arg name
+            }
+          }
+        }
       }
     },
     rust_analyzer = {},
