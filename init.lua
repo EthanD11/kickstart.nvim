@@ -694,7 +694,16 @@ do
   local servers = {
     -- clangd = {},
     -- gopls = {},
-    pyright = {},
+    -- pyright = {},
+    basedpyright = {
+      -- See pyright doc for explanation: 
+      -- https://docs.basedpyright.com/latest/configuration/language-server-settings/#neovim
+      settings = {
+        analysis = {
+          diagnosticMode = "openFilesOnly" -- or "workspace"
+        } 
+      }
+    },
     rust_analyzer = {},
     --
     -- Some languages (like typescript) have entire language plugins that can be useful:
