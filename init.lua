@@ -765,6 +765,12 @@ do
   require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
   for name, server in pairs(servers) do
+    -- vim.lsp.config is a table with a __call metamethod.
+    -- This is the method being called in the line below. 
+    -- It updates the entry `name` in the table with the config in server, 
+    -- and leaves every field not specified in `server` as they were before.
+    -- It differs from the doc `:help lsp` which specifies the assignment form, which rewrites
+    -- the entire config.
     vim.lsp.config(name, server)
     vim.lsp.enable(name)
   end
