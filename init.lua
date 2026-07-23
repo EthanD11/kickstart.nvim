@@ -220,10 +220,10 @@ do
   vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
   -- TIP: Disable arrow keys in normal mode
-  -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
-  -- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
-  -- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
-  -- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
+  vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
+  vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
+  vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
+  vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
   -- Keybinds to make split navigation easier.
   --  Use CTRL+<hjkl> to switch between windows
@@ -251,7 +251,10 @@ do
     group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
     callback = function() vim.hl.on_yank() end,
   })
-end
+
+  vim.keymap.set("n", "<space>xf", "<cmd>source %<CR>")
+  vim.keymap.set("n", "<space>xl", ":.lua<CR>")
+  vim.keymap.set("v", "<space>x", ":lua<CR>")
 
 -- ============================================================
 -- SECTION 3: PLUGIN MANAGER INTRO
@@ -495,10 +498,10 @@ do
     --  All the info you're looking for is in `:help telescope.setup()`
     --
     defaults = {
-    --   mappings = {
-    --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-    --   },
-      file_ignore_patterns = {'^%.git/', '^%.venv/'}
+      --   mappings = {
+      --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+      --   },
+      file_ignore_patterns = { '^%.git/', '^%.venv/' },
     },
     -- pickers = {}
     extensions = {
@@ -514,13 +517,7 @@ do
   local builtin = require 'telescope.builtin'
   vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
   vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-  vim.keymap.set(
-    'n', '<leader>sf',
-    function()
-      builtin.find_files { hidden=true }
-    end,
-    { desc = '[S]earch [F]iles' }
-  )
+  vim.keymap.set('n', '<leader>sf', function() builtin.find_files { hidden = true } end, { desc = '[S]earch [F]iles' })
   vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
   vim.keymap.set({ 'n', 'v' }, '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
   vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
@@ -703,18 +700,18 @@ do
     -- gopls = {},
     -- pyright = {},
     basedpyright = {
-      -- See pyright doc for explanation: 
+      -- See pyright doc for explanation:
       -- https://docs.basedpyright.com/latest/configuration/language-server-settings/#neovim
       settings = {
         basedpyright = {
           analysis = {
-            diagnosticMode = "openFilesOnly", -- or "workspace"
+            diagnosticMode = 'openFilesOnly', -- or "workspace"
             inlayHints = {
-              callArgumentNamesMatching = true -- Shows argument names even when parameter name matches arg name
-            }
-          }
-        }
-      }
+              callArgumentNamesMatching = true, -- Shows argument names even when parameter name matches arg name
+            },
+          },
+        },
+      },
     },
     rust_analyzer = {},
     --
@@ -787,8 +784,8 @@ do
 
   for name, server in pairs(servers) do
     -- vim.lsp.config is a table with a __call metamethod.
-    -- This is the method being called in the line below. 
-    -- It updates the entry `name` in the table with the config in server, 
+    -- This is the method being called in the line below.
+    -- It updates the entry `name` in the table with the config in server,
     -- and leaves every field not specified in `server` as they were before.
     -- It differs from the doc `:help lsp` which specifies the assignment form, which rewrites
     -- the entire config.
